@@ -1,8 +1,10 @@
 
 exports.createUser = async (req, res) => {
-
     try {
         const supabase = req.supabase;
+        const bodyData = req.body;
+
+
 
         // Use the Supabase client to query the database
         const { data, error } = await supabase
@@ -20,8 +22,7 @@ exports.createUser = async (req, res) => {
     }
 
     catch (error) {
-        console.error(error);
-        res.status(500).send('Error fetching users from the database');
+        res.status(500).send(error);
     }
 
 };
