@@ -4,7 +4,9 @@ exports.createUser = async (req, res) => {
         const supabase = req.supabase;
         const bodyData = req.body;
 
-
+        username = bodyData.username;
+        email = bodyData.email;
+        password = bodyData.password;
 
         // Use the Supabase client to query the database
         const { data, error } = await supabase
