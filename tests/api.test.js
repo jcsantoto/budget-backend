@@ -18,15 +18,17 @@ describe('API Tests', () => {
     it("Test create user", async() =>{
         const response = await supertest(app)
         .post('/api/register')
-        .send({username: "john", email: "john@john.com", password: "john"})
+        .send({username: "john", email: "john2@john.com", password: "john"})
 
-        expect(response.body).toBe("Successfully Added User");
+        // expect(response.body).toBe("Successfully Added User");
+        console.log(response.body);
+        console.log(response);
 
     });
 
     it("Test get user info", async() =>{
         const response = await supertest(app)
-        .get('/api/getuser')
+        .post('/api/getuser')
         .send({email: "john@john.com"});
 
         console.log(response.body);

@@ -11,6 +11,11 @@ exports.createUser = async (req, res) => {
         email = bodyData.email;
         password = bodyData.password;
 
+        // Check for empty parameter
+        if(!username || !email || !password){
+            res.send("same email");
+        }
+
         hashedPassword = await passwordUtil.hashPassword(password);
 
         // Insert new user into database
@@ -42,13 +47,15 @@ exports.getUser = async (req, res) => {
 
     const { data, error } = await supabase
         .from('users')
-        .select("email" = email);
+        .select('username')
+        .eq('email', email);
 
         if (error) {
             throw error;
           }
   
-          res.send("Successfully Added User");
+          res.send(data);
+          
 
 
 };
