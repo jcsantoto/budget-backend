@@ -9,8 +9,12 @@ router.post("/test", testController.testPost);
 
 router.post('/register', userController.createUser);
 router.post('/getuser', userController.getUser);
-router.post('/update', userController.updateUser);
-router.post('/delete', userController.deleteUser);
+
+router.post('/updatename', userController.updateUsername);
+router.post('/updateemail', userController.updateEmail);
+router.post('/updatepassword', userController.updatePassword);
+
+router.post('/delete-user', userController.deleteUser);
 
 
 

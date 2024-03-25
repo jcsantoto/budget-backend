@@ -13,7 +13,7 @@ exports.createUser = async (req, res) => {
 
         // Check for empty parameter
         if(!username || !email || !password){
-            res.send("same email");
+            throw new Error("Missing information");
         }
 
         hashedPassword = await passwordUtil.hashPassword(password);
@@ -40,30 +40,109 @@ exports.createUser = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-    const supabase = req.supabase;
-    const bodyData = req.body;
+    try {
+        const supabase = req.supabase;
+        const bodyData = req.body;
 
-    email = bodyData.email;
+        email = bodyData.email;
 
-    const { data, error } = await supabase
-        .from('users')
-        .select('username')
-        .eq('email', email);
+        const { data, error } = await supabase
+            .from('users')
+            .select('username')
+            .eq('email', email);
 
-        if (error) {
-            throw error;
-          }
-  
-          res.send(data);
-          
+            if (error) {
+                throw error;
+            }
+    
+            res.send(data);
+        }
+
+    catch (error){
+        res.status(500).send(error);
+    }
 
 
 };
 
-exports.updateUser = async (req, res) =>{
+exports.updateUsername = async (req, res) =>{
+    try{
+        const supabase = req.supabase;
+        const bodyData = req.body;
 
+        email = bodyData.email;
+        newUsername = bodyData.newUsername;
+
+        const {data, error} = await supabase
+        .from('users')
+        .update({'username': newUsername})
+        .eq('email', email);
+        res.send("Successfully updated username");
+    }
+
+    catch (error){
+        res.status(500).send(error);
+    }
+};
+
+exports.updateEmail = async (req, res) =>{
+    try{
+        const supabase = req.supabase;
+        const bodyData = req.body;
+
+        email = bodyData.email;
+        newEmail = bodyData.newEmail;
+
+        const {data, error} = await supabase
+        .from('users')
+        .update({'email': newEmail})
+        .eq('email', email);
+        res.send("Successfully updated email");
+    }
+
+    catch (error){
+        res.status(500).send(error);
+    }
+};
+
+exports.updatePassword = async (req, res) =>{
+    try{
+        const supabase = req.supabase;
+        const bodyData = req.body;
+
+        email = bodyData.email;
+        newPassword = bodyData.newEmail;
+
+        hashedPassword = await passwordUtil.hashPassword(newPassword);
+
+
+        const {data, error} = await supabase
+        .from('users')
+        .update({'password_hash': hashedPassword})
+        .eq('email', email);
+        res.send("Successfully updated password");
+    }
+
+    catch (error){
+        res.status(500).send(error);
+    }
 };
 
 exports.deleteUser = async (req, res) => {
+    try{
+        const supabase = req.supabase;
+        const bodyData = req.body;
 
+        email = bodyData.email;
+
+        const {data, error} = await supabase
+        .from('users')
+        .delete()
+        .eq('email', email);
+        res.send("Successfully Deleted User");
+
+    }
+    catch(error){
+        res.status(500).send(error);
+    }
 };
