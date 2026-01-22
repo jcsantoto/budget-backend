@@ -12,4 +12,26 @@ describe('API Tests', () => {
         console.log(response.error);
     });
 
+
+    it("Missing Information", async() =>{
+        const response = await supertest(app)
+        .post('/api/register')
+        .send({username: "john", email: "john@john.com"})
+
+        expect(response.body).toBe("Missing Information");
+        console.log(response.error);
+    });
+
+
+    it("Duplicate Information", async() =>{
+        const response = await supertest(app)
+        .post('/api/register')
+        .send({username: "john", email: "john@john.com", password: "john"})
+
+        expect(response.body).toBe("Duplicate Information");
+        console.log(response.error);
+    });
+
+
+
 });

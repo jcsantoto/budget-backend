@@ -16,17 +16,25 @@ exports.createUser = async (req, res) => {
             throw new Error("Missing information");
         }
 
+        //Check duplicate user
+        const { select_data, select_error} = await supabase
+        .from('users')
+        .select()
+
+        console.log("TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST")
+        console.log(select_data)
+
         hashedPassword = await passwordUtil.hashPassword(password);
 
         // Insert new user into database
-        const { data, error } = await supabase
+        const { insert_data, insert_error } = await supabase
         .from('users')
         .insert([
             {username: username, email: email, password_hash: hashedPassword},
         ]);
 
-        if (error) {
-          throw error;
+        if (insert_error) {
+          throw insert_error;
         }
 
         res.send("Successfully Added User");
